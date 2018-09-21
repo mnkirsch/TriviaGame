@@ -10,7 +10,7 @@ var answerArray = [["Kareem Abdul-Jabar", "Michael Jordan", "LeBron James", "Dir
 
 var correctAnswers = ["A. Kareem Abdul-Jabar", "C. Bill Russell", "D. 4"];
 
-var imageArray = ["<img class='center-block img-right' src='assets/images/Kareem-Abdul-Jabar.jpg' />", "<img class='center-block img-right' src='assets/images/Bill-Russell.jpg' />", "<img class='center-block img-right' src='assets/images/Caliteams.png'"];
+var imageArray = ["<img class='center-block img-right' src='assets/images/Kareem-Abdul-Jabar.jpg' />", "<img class='center-block img-right' src='assets/images/Bill-Russell.jpg' />", "<img class='center-block img-right' src='assets/images/Caliteams.png' />"];
 
 var questionCounter = 0;
 var selectedAnswer;
@@ -46,25 +46,25 @@ $("body").on("click", ".reset-button", function(event) {
     resetGame();
 });
 
-function timeoutLoss() {
-    unansweredTally++;
-    gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>" + counter + "</span></p>" + "<p class='text-center'>You ran out of time!  The correct answer was: " + correctAnswers[questionCounter] + "</p>";
-    $(".mainArea").html(gameHTML);
-    setInterval(wait, 4000);
-};
+function generateLossDueToTimeOut() {
+	unansweredTally++;
+	gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>" + counter + "</span></p>" + "<p class='text-center'>You ran out of time!  The correct answer was: " + correctAnswers[questionCounter] + "</p>" + "<img class='center-block img-wrong' src='img/x.png'>";
+	$(".mainArea").html(gameHTML);
+	setTimeout(wait, 4000);
+}
 
 function generateWin() {
-    correctTally++;
-    gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>" + counter + "</span></p>" + "<p class='text-center'>Correct! The answer is: " + correctAnswers[questionCounter] + "</p>" + imageArray[questionCounter];
-    $(".mainArea").html(gameHTML);
-    setInterval(wait, 4000);
+	correctTally++;
+	gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>" + counter + "</span></p>" + "<p class='text-center'>Correct! The answer is: " + correctAnswers[questionCounter] + "</p>" + imageArray[questionCounter];
+	$(".mainArea").html(gameHTML);
+	setTimeout(wait, 4000);
 }
 
 function generateLoss() {
 	incorrectTally++;
 	gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>" + counter + "</span></p>" + "<p class='text-center'>Wrong! The correct answer is: "+ correctAnswers[questionCounter] + "</p>" + "<img class='center-block img-wrong' src='img/x.png'>";
 	$(".mainArea").html(gameHTML);
-	setInterval(wait, 4000);
+	setTimeout(wait, 4000);
 }
 
 function generateHTML() {
@@ -89,7 +89,7 @@ function timeWrapper() {
     function thirtySeconds() {
         if (counter === 0) {
             clearInterval(timeClock);
-            timeoutLoss();
+            generateLossDueToTimeOut();
         }
         if (counter > 0) {
             counter--;
